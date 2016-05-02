@@ -1,0 +1,22 @@
+{
+  "name": "url-shortener",
+  "version": "0.0.1",
+  "description": "URL shortener microservice project for FCC",
+  "main": "url-shortener.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ellacodecamp/url-shortener"
+  },
+  "scripts": {
+    "start": "node url-shortener.js"
+  },
+  "author": "Ella Baron",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^2.0.0",
+    "express": "^4.13.4",
+    "mongodb": "^2.1.18",
+    "non-crypto-hash": "^0.1.2",
+    "valid-url": "^1.0.9"
+  }
+}
