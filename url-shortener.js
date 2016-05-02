@@ -2,7 +2,7 @@
 
 var express = require("express");
 var mongoClient = require("mongodb").MongoClient;
-var assert = require('assert');
+var assert = require("assert");
 var hashAlgorithm = require("non-crypto-hash").createHash("murmurhash3");
 var validUrl = require("valid-url");
 var url = require('url');
