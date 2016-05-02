@@ -38,7 +38,6 @@ app.get("/new/*", function(req, res) {
       return false;
     }
     var urlParts = url.parse(inUrl);
-    // console.log(urlParts);
     if (!urlParts.host.includes(".")) {
       return false;
     }
@@ -53,7 +52,6 @@ app.get("/new/*", function(req, res) {
   }
 
   var id = hashAlgorithm.x86Hash32(inputUrl).substr(0, 4);
-  console.log("Short URL for: " + inputUrl + ", id = " + id);
 
   // use first 4 bytes for id
   // if duplicate id (but url is different), add sub-id (start with 1 and keep
@@ -65,17 +63,14 @@ app.get("/new/*", function(req, res) {
   }
 
   function insertResult(err, result) {
-    // console.log("Error: " + err);
     if (err) {
       if (err.code == 11000) {
-        console.log("Duplicate record error detected");
         collection.findOne({"_id": id, "url": inputUrl}, function (err, result) {
           if (err) {
             console.log("Error: " + err);
-            sendErrorResponse(res, err.code);
+            sendErrorResponse(res, err.errmsg);
           }
           else if (result) {
-            console.log("Document found: { _id: " + result._id + ", url: " + result.url + " }");
             sendResponse();
           } else {
             // modify key and attempt to insert
@@ -91,10 +86,9 @@ app.get("/new/*", function(req, res) {
           }
         });
       } else {
-        sendErrorResponse(res, err.code);
+        sendErrorResponse(res, err.errmsg);
       }
     } else {
-      console.log("Result: " + result);
       sendResponse();
     }
   }
@@ -103,15 +97,13 @@ app.get("/new/*", function(req, res) {
 });
 
 app.get("/:id", function(req, res) {
-  console.log("Redirect for: " + req.params.id);
   var id = req.params.id;
   collection.findOne({"_id": id }, function (err, result) {
     if (err) {
       console.log("Error: " + err);
-      sendErrorResponse(res, err.code);
+      sendErrorResponse(res, err.errmsg);
     }
     else if (result) {
-      console.log("Document found: { _id: " + result._id + ", url: " + result.url + " }");
       res.redirect(result.url);
     } else {
       sendErrorResponse(res, "No original url found");
